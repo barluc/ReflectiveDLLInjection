@@ -14,3 +14,8 @@ rdi.suo
 rdi.sdf
 rdi.opensdf
 rdi.v11.suo
+.vs/rdi/v16/.suo
+*.db
+*.opendb
+*.db-shm
+*.db-wal
