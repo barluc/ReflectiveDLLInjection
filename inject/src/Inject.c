@@ -31,6 +31,9 @@
 #include <stdlib.h>
 #include "LoadLibraryR.h"
 
+#include <Shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+
 #pragma comment(lib,"Advapi32.lib")
 
 #define BREAK_WITH_ERROR( e ) { printf( "[-] %s. Error=%d", e, GetLastError() ); break; }
@@ -70,7 +73,13 @@ int main( int argc, char * argv[] )
 		if( argc >= 3 )
 			cpDllFile = argv[2];
 
-		hFile = CreateFileA( cpDllFile, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+
+		char  szExeDir[MAX_PATH] = { 0 };
+		GetModuleFileName(NULL, szExeDir, MAX_PATH);
+		PathRemoveFileSpec(szExeDir);
+		PathAppend(szExeDir, cpDllFile);
+
+		hFile = CreateFileA(szExeDir, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
 		if( hFile == INVALID_HANDLE_VALUE )
 			BREAK_WITH_ERROR( "Failed to open the DLL file" );
 
